@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('./Develop/public'));
+app.use(express.static('public'));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, './public/index.html')));
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, './public/notes.html')));
@@ -29,16 +29,15 @@ app.post("/api/notes", (req, res) => {
     newNote.id =`${Date.now()}`;
     
     writeNote.push(newNote);
-    dbUpdate(writeNote, res);
-    return console.log("New note: " + newNote);
+    fs.writeFileSync("./db/db.json", JSON.stringify(writeNote));
+    // dbUpdate(writeNote, res);
+    return res.json(newNote);
 });
-
+ 
 // delete note
 app.delete("/api/notes/:id", (req, res) => {
-    let deleteSelection = req.params.id;
-    let deleteIndex = writeNote.indexOf(deleteSelection);
-    writeNote.splice(deleteIndex, 1);
-    dbUpdate(deleteIndex, res);
+console.log(req.params.id)
+return res.send("ok")
 });
 
 // add server
