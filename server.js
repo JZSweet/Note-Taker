@@ -4,7 +4,6 @@ const path = require("path");
 const express = require("express");
 const uuid = require("uuid");
 const db = fs.readFileSync("./db/db.json");
-// const notes = JSON.parse(db);
 let writeNote = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
 
 // set express
@@ -26,18 +25,19 @@ app.get('/api/notes', (req, res) => {
 // add note
 app.post("/api/notes", (req, res) => {
     let newNote = req.body;
-    newNote.id =`${Date.now()}`;
-    
+    newNote.id = `${Date.now()}`;
     writeNote.push(newNote);
     fs.writeFileSync("./db/db.json", JSON.stringify(writeNote));
-    // dbUpdate(writeNote, res);
     return res.json(newNote);
 });
- 
+
 // delete note
 app.delete("/api/notes/:id", (req, res) => {
-console.log(req.params.id)
-return res.send("ok")
+    let deleteNoteID = req.params.id;
+    let noteIndex = writeNote.indexOf(deleteNoteID);
+    writeNote.splice(noteIndex, 1);
+    fs.writeFileSync('./db/db.json', JSON.stringify(writeNote));
+    return res.send(writeNote)
 });
 
 // add server
