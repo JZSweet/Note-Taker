@@ -13,5 +13,5 @@ Note Taker application can be used to write and save notes. This application use
 * When click the write and delete icon, user can add or delete a note. 
 
 ## Img
-![](img/1.png)
-![](img/2.png)
+![Home page](img/1.png)
+![Note page](img/2.png)
